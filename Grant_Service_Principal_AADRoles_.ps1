@@ -6,7 +6,7 @@
     
     Connect-AzAccount -credential $credential
 
-    $AzADAppDisplayName = Read-Host "Enter a name for your Azure AD Application" 
+    $AzADAppDisplayName = Read-Host "Enter the name for your Azure AD Application" 
 
     <#add your application to Company Administrator and user account roles in the Office 365 administrative roles to prevent - “code”: “Authorization_RequestDenied”, . 
     can take up to 30mins
