@@ -3,8 +3,10 @@
     $cloudcred = Get-Credential
 
     Connect-AzureAD -Credential $cloudcred
+    
+    Connect-AzAccount -credential $credential
 
-     $AzADAppDisplayName = "ReproduceOneDriveApp" 
+    $AzADAppDisplayName = Read-Host "Enter a name for your Azure AD Application" 
 
     <#add your application to Company Administrator and user account roles in the Office 365 administrative roles to prevent - “code”: “Authorization_RequestDenied”, . 
     can take up to 30mins
@@ -26,22 +28,3 @@
      get-AzureADDirectoryRoleMember -ObjectId $AzADrole | Select-Object ObjectId,DisplayName  
 
 }
-
-
-    Connect-MsolService -Credential $cloudcred
-
-    
-    #Gets service principals from Azure Active Directory.
-    $objectId = (Get-MsolServicePrincipal | where{$_.DisplayName -match $appdisplayName}).ObjectId
-    $objectId
-    
-    $roleName = "User Account Administrator" 
-    Add-MsolRoleMember -RoleName $roleName -RoleMemberType ServicePrincipal -RoleMemberObjectId $objectId
-    
-    $roleName = "Company Administrator" 
-    Add-MsolRoleMember -RoleName $roleName -RoleMemberType ServicePrincipal -RoleMemberObjectId $objectId
-
-    Connect-PnPOnline -ClientId $servicePrincipalConnection.ApplicationId -ClientSecret  $Clientsecret -Url "https://m365x685435-admin.sharepoint.com"
-
-#Get all office 365 users Onedrive sites
-$OneDriveSites = Get-PnPTenantSite -IncludeOneDriveSites -Filter "Url -like '-my.sharepoint.com/personal/'"
